@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => {
       <Typography variant="h5" gutterBottom>
         Upload, manage, and generate cover letters for your resumes
       </Typography>
-	  <Button color="primary" component={Link} to="/signup" >
+	  <Button color="inherit" component={Link} to="/signup" >
         Get Started
       </Button>
     </Box>

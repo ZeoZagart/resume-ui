@@ -1,9 +1,9 @@
 import { Box, TextField, Button, Typography } from '@mui/material';
 
 const Login: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Perform login and API call
+
   };
 
   return (
@@ -13,7 +13,7 @@ const Login: React.FC = () => {
       flexDirection="column"
       alignItems="center"
       padding={4}
-      onSubmit={handleSubmit}
+      onSubmit={handleLogin}
     >
       <Typography variant="h4" gutterBottom>
         Log In
