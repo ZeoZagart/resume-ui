@@ -1,27 +1,35 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import NavBar from './components/NavBar'
-import HeroSection from './components/HeroSection'
-import SignUp from './pages/SignUp'
-import Login from './pages/Login'
-import Dashboard from './pages/dashboard/Dashboard'
-import { CssBaseline } from '@mui/material'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import HeroSection from './components/HeroSection';
+import SignUp from './pages/SignUp';
+import Login from './pages/Login';
+import Dashboard from './pages/dashboard/Dashboard';
+import { CssBaseline } from '@mui/material';
+import { AuthProvider, useAuth } from './context/AuthContext';
+
+const Home: React.FC = () => {
+  const { isLoggedIn } = useAuth();
+  return isLoggedIn() ? <Dashboard /> : <HeroSection />;
+};
 
 const App: React.FC = () => {
-    return (
-        <>
-            <CssBaseline />
-            <Router>
-                <NavBar />
-                <Routes>
-                    <Route path="/" element={<HeroSection />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                </Routes>
-            </Router>
-        </>
-    )
-}
+  return (
+    <>
+      <CssBaseline />
+      <AuthProvider>
+        <Router>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </>
+  );
+};
 
-export default App
+export default App;

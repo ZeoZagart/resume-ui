@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography, AppBar, Tabs, Tab } from '@mui/material';
+import { Box, Button, AppBar, Tabs, Tab } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
 import MyResumes from './MyResumes';
 import GenerateCoverLetter from './GenerateCoverLetter';
@@ -7,7 +7,7 @@ import AccountSettings from './AccountSettings';
 
 const Dashboard: React.FC = () => {
   const [tabValue, setTabValue] = useState(0);
-  const { token, setToken } = useAuth();
+  const { setToken } = useAuth();
 
   const handleLogout = () => {
     setToken(null);
