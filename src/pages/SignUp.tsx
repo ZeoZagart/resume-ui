@@ -1,22 +1,28 @@
-import { Box, TextField, Button, Typography } from '@mui/material';
-import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { Box, TextField, Button, Typography, CircularProgress } from '@mui/material';
+import React, { useState } from 'react';
 import { signup } from '../api/resume_service';
+import { useAuth } from '../context/AuthContext';
 
 const SignUp: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setLoggedIn } = useAuth();
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { setToken } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+
     try {
       const { token } = await signup(name, email, password);
-      localStorage.setItem('token', token);
-      setLoggedIn(true);
+      setToken(token);
     } catch (error) {
-      // Handle errors
+      setError('Error signing up. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -28,35 +34,39 @@ const SignUp: React.FC = () => {
       alignItems="center"
       padding={4}
       onSubmit={handleSubmit}
-    >
+      >
       <Typography variant="h4" gutterBottom>
-        Sign Up
+      Sign Up
       </Typography>
       <TextField
-        label="Name"
-        margin="normal"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+      label="Name"
+      margin="normal"
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      error={Boolean(error)}
       />
       <TextField
-        label="Email"
-        type="email"
-        margin="normal"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+      label="Email"
+      type="email"
+      margin="normal"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      error={Boolean(error)}
       />
       <TextField
-        label="Password"
-        type="password"
-        margin="normal"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+      label="Password"
+      type="password"
+      margin="normal"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      error={Boolean(error)}
+      helperText={error}
       />
-      <Button type="submit" variant="contained" color="primary">
-        Sign Up
+      <Button type="submit" variant="contained" color="primary" disabled={loading}>
+      {loading ? <CircularProgress size={24} /> : 'Sign Up'}
       </Button>
-    </Box>
-  );
-};
-
-export default SignUp;
+      </Box>
+      );
+      };
+      
+      export default SignUp;

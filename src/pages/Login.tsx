@@ -1,21 +1,27 @@
-import { Box, TextField, Button, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography, CircularProgress } from '@mui/material';
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
 import { login } from '../api/resume_service';
+import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setLoggedIn } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const { setToken } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+
     try {
       const { token } = await login(email, password);
-      localStorage.setItem('token', token);
-      setLoggedIn(true);
+      setToken(token);
     } catch (error) {
-      // Handle errors
+      setError('Invalid email or password.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,6 +43,8 @@ const Login: React.FC = () => {
         margin="normal"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        error={Boolean(error)}
+        helperText={error}
       />
       <TextField
         label="Password"
@@ -44,9 +52,10 @@ const Login: React.FC = () => {
         margin="normal"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        error={Boolean(error)}
       />
-      <Button type="submit" variant="contained" color="primary">
-        Log In
+      <Button type="submit" variant="contained" color="primary" disabled={loading}>
+        {loading ? <CircularProgress size={24} /> : 'Log In'}
       </Button>
     </Box>
   );
