@@ -7,6 +7,7 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import { login } from '../api/resume_service'
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'
 
 const Login: React.FC = () => {
@@ -15,6 +16,7 @@ const Login: React.FC = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const { setToken } = useAuth()
+    const navigator = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -24,6 +26,7 @@ const Login: React.FC = () => {
         try {
             const { token } = await login(email, password)
             setToken(token)
+            navigator('/dashboard');
         } catch (error) {
             setError('Invalid email or password.')
         } finally {

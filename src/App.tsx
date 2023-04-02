@@ -4,7 +4,7 @@ import NavBar from './components/NavBar'
 import HeroSection from './components/HeroSection'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
+import Dashboard from './pages/dashboard/Dashboard'
 import { CssBaseline } from '@mui/material'
 
 const App: React.FC = () => {
