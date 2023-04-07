@@ -37,7 +37,7 @@ const MyResumes = () => {
         }
 
         fetchResumes()
-    })
+    }, [token])
 
     const handleDownload = async (resumeId: string) => {
         try {
