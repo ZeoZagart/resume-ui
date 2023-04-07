@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+// UploadResumes.tsx
+import React, { useState, useCallback } from 'react'
 import {
-    Button,
     Dialog,
-    DialogActions,
-    DialogContent,
     DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
     TextField,
+    CircularProgress,
 } from '@mui/material'
 import { uploadResume } from '../api/resume_service'
 import { useAuth } from '../context/AuthContext'
@@ -23,13 +25,14 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
     onClose,
     onUploadSuccess,
     setError,
-}) => {
+}: UploadResumesProps) => {
     const { token } = useAuth()
-    const [selectedFile, setSelectedFile] = useState<File | null>(null)
+    const [file, setFile] = useState<File | null>(null)
     const [metadata, setMetadata] = useState('')
+    const [loading, setLoading] = useState(false)
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedFile(event.target.files?.[0] || null)
+    const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFile(event.target.files?.[0] || null)
     }
 
     const handleMetadataChange = (
@@ -38,52 +41,45 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
         setMetadata(event.target.value)
     }
 
-    const handleUploadResume = async () => {
-        if (selectedFile) {
-            try {
-                const metadataObject = metadata ? JSON.parse(metadata) : {}
-                const response = await uploadResume(
-                    token!!,
-                    metadataObject,
-                    selectedFile
-                )
+    const handleUpload = async () => {
+        if (!file) {
+            setError('No file selected')
+            return
+        }
+        const metadataObject = metadata ? JSON.parse(metadata) : {}
 
-                if (response.state === 'SUCCESS') {
-                    onUploadSuccess(response.data)
-                    setSelectedFile(null)
-                    setMetadata('')
-                    onClose()
-                } else {
-                    setError(`Error uploading resume: ${response.error}`)
-                }
-            } catch (error) {
-                setError(
-                    'Invalid metadata JSON format. Please correct and try again.'
-                )
-            }
+        setLoading(true)
+        const response = await uploadResume(token!!, metadataObject, file)
+        setLoading(false)
+        if (response.state === 'SUCCESS') {
+            onUploadSuccess(response.data)
+            setFile(null)
+            setMetadata('')
+            onClose()
         } else {
-            setError('Please select a file to upload.')
+            setError(`Error uploading resume: ${response.error}`)
         }
     }
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Upload New Resume</DialogTitle>
+            <DialogTitle>Upload Resume</DialogTitle>
             <DialogContent>
                 <input
                     accept="application/pdf"
                     style={{ display: 'none' }}
                     id="upload-file"
                     type="file"
-                    onChange={handleFileChange}
+                    onChange={handleChangeFile}
                     aria-label="Select resume file"
                 />
                 <label htmlFor="upload-file">
                     <Button variant="outlined" color="primary" component="span">
-                        {selectedFile ? selectedFile.name : 'Choose File'}
+                        {file ? file.name : 'Choose File'}
                     </Button>
                 </label>
                 <TextField
+                    id="metadata"
                     label="Metadata (Optional, JSON format)"
                     variant="outlined"
                     fullWidth
@@ -93,12 +89,20 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} color="secondary">
-                    Cancel
-                </Button>
-                <Button onClick={handleUploadResume} color="primary">
+                <Button onClick={onClose}>Cancel</Button>
+                <Button
+                    onClick={handleUpload}
+                    color="primary"
+                    disabled={!file || loading}
+                >
                     Upload
                 </Button>
+                {loading && (
+                    <CircularProgress
+                        size={24}
+                        style={{ marginLeft: '10px' }}
+                    />
+                )}
             </DialogActions>
         </Dialog>
     )
