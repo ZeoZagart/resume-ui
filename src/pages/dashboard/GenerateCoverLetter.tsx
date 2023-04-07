@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const GenerateCoverLetter: React.FC = () => {
-  return <div>Generate Cover Letter Content</div>;
-};
+    return <div>Generate Cover Letter Content</div>
+}
 
-export default GenerateCoverLetter;
+export default GenerateCoverLetter

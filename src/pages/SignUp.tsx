@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import React, { useState } from 'react'
 import { signup } from '../api/resume_service'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const SignUp: React.FC = () => {
@@ -17,7 +17,7 @@ const SignUp: React.FC = () => {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const { setToken } = useAuth()
-    const navigator = useNavigate();
+    const navigator = useNavigate()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -27,7 +27,7 @@ const SignUp: React.FC = () => {
         try {
             const { token } = await signup(name, email, password)
             setToken(token)
-            navigator('/dashboard');
+            navigator('/dashboard')
         } catch (error) {
             setError('Error signing up. Please try again.')
         } finally {

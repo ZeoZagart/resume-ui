@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react'
 import { isExpired } from 'react-jwt'
 
 interface AuthContextData {
@@ -20,7 +20,9 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [token, updateTokenState] = useState<string | null>(localStorage.getItem('token'));
+    const [token, updateTokenState] = useState<string | null>(
+        localStorage.getItem('token')
+    )
     const isLoggedIn = () => isTokenExpired(token)
 
     function setToken(value: string | null) {
@@ -29,15 +31,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             localStorage.removeItem('token')
         }
     }
-  
+
     return (
-      <AuthContext.Provider value={{ isLoggedIn, token, setToken }}>
-        {children}
-      </AuthContext.Provider>
-    );
-  };
-  
-  const isTokenExpired = (token: string | null): boolean => {
+        <AuthContext.Provider value={{ isLoggedIn, token, setToken }}>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+
+const isTokenExpired = (token: string | null): boolean => {
     if (!token || token === '') {
         return true
     }
