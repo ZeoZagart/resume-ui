@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const NavBar: React.FC = () => {
     const { isLoggedIn, setToken } = useAuth()
 
-    const loggedOutButtons = () => {
+    const logOutButtons = () => {
         return (
             <Button color="inherit" onClick={() => setToken(null)}>
                 Logout
@@ -13,7 +13,7 @@ const NavBar: React.FC = () => {
         )
     }
 
-    const loggedInButtons = () => {
+    const logInButtons = () => {
         return (
             <div>
                 <Button color="inherit" component={Link} to="/signup">
@@ -32,7 +32,7 @@ const NavBar: React.FC = () => {
                 <Typography variant="h6" style={{ flexGrow: 1 }}>
                     Resume Service
                 </Typography>
-                {isLoggedIn() ? loggedOutButtons() : loggedInButtons()}
+                {isLoggedIn() ? logOutButtons() : logInButtons()}
             </Toolbar>
         </AppBar>
     )

@@ -1,17 +1,11 @@
 import React, { useState } from 'react'
-import { Box, Button, AppBar, Tabs, Tab } from '@mui/material'
-import { useAuth } from '../../context/AuthContext'
+import { Box, AppBar, Tabs, Tab } from '@mui/material'
 import MyResumes from './MyResumes'
 import GenerateCoverLetter from './GenerateCoverLetter'
 import AccountSettings from './AccountSettings'
 
 const Dashboard: React.FC = () => {
     const [tabValue, setTabValue] = useState(0)
-    const { setToken } = useAuth()
-
-    const handleLogout = () => {
-        setToken(null)
-    }
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue)
@@ -31,7 +25,6 @@ const Dashboard: React.FC = () => {
                 {tabValue === 1 && <GenerateCoverLetter />}
                 {tabValue === 2 && <AccountSettings />}
             </Box>
-            <Button onClick={handleLogout}>Log Out</Button>
         </Box>
     )
 }

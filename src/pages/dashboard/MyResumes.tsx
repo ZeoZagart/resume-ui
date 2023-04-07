@@ -27,7 +27,10 @@ const MyResumes = () => {
         const fetchResumes = async () => {
             try {
                 const response = await listResumes(token!!)
-                setResumes(response.data)
+                console.log(`received resume: ${JSON.stringify(response)}`)
+                if (!!response) {
+                    setResumes(response.resumes)
+                }
             } catch (error) {
                 console.error('Error fetching resumes:', error)
             }
