@@ -32,7 +32,7 @@ const NavBar: React.FC = () => {
                 <Typography variant="h6" style={{ flexGrow: 1 }}>
                     Resume Service
                 </Typography>
-                {isLoggedIn() ? loggedInButtons() : loggedOutButtons()}
+                {isLoggedIn() ? loggedOutButtons() : loggedInButtons()}
             </Toolbar>
         </AppBar>
     )

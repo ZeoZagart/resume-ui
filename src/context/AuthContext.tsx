@@ -23,11 +23,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [token, updateTokenState] = useState<string | null>(
         localStorage.getItem('token')
     )
-    const isLoggedIn = () => isTokenExpired(token)
+    const isLoggedIn = () => !isTokenExpired(token)
 
     function setToken(value: string | null) {
+        console.log(`updating token to: ${value}`)
         updateTokenState(value)
-        if (!value) {
+        if (!isTokenExpired(value)) {
+            console.log(`unexpired token, means logged in`)
+            localStorage.setItem('token', value!!)
+        } else {
+            console.log(`expired or null token, means logged out`)
             localStorage.removeItem('token')
         }
     }
