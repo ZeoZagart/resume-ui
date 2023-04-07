@@ -16,11 +16,13 @@ import {
 } from '../../api/resume_service'
 import { Resume } from '../../api/types'
 import { useAuth } from '../../context/AuthContext'
+import UploadResume from '../../components/UploadResume'
 
 const MyResumes = () => {
     const { token } = useAuth()
     const [resumes, setResumes] = useState<Resume[]>([])
     const [error, setError] = useState<string | null>(null)
+    const [uploadDialogOpen, setUploadDialogOpen] = useState(false)
 
     useEffect(() => {
         const fetchResumes = async () => {
@@ -73,6 +75,18 @@ const MyResumes = () => {
         setError(null)
     }
 
+    const handleUploadSuccess = (uploadedResume: any) => {
+        setResumes((prevState) => [uploadedResume, ...prevState])
+    }
+
+    const handleOpenUploadDialog = () => {
+        setUploadDialogOpen(true)
+    }
+
+    const handleCloseUploadDialog = () => {
+        setUploadDialogOpen(false)
+    }
+
     return (
         <>
             <Table>
@@ -120,12 +134,16 @@ const MyResumes = () => {
             <Button
                 variant="contained"
                 color="primary"
-                onClick={() => {
-                    /* Implement upload new resume */
-                }}
+                onClick={handleOpenUploadDialog}
             >
                 Upload New Resume
             </Button>
+            <UploadResume
+                open={uploadDialogOpen}
+                onClose={handleCloseUploadDialog}
+                onUploadSuccess={handleUploadSuccess}
+                setError={setError}
+            />
             <Snackbar
                 open={error !== null}
                 autoHideDuration={6000}

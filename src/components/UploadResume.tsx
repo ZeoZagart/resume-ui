@@ -1,50 +1,70 @@
-import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { uploadResume } from '../api/resume_service';
-import { useAuth } from '../context/AuthContext';
-import { Resume } from '../api/types';
+import React, { useState } from 'react'
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+} from '@mui/material'
+import { uploadResume } from '../api/resume_service'
+import { useAuth } from '../context/AuthContext'
+import { Resume } from '../api/types'
 
 interface UploadResumesProps {
-    open: boolean;
-    onClose: () => void;
-    onUploadSuccess: (uploadedResume: Resume) => void;
-    setError: (error: string | null) => void;
+    open: boolean
+    onClose: () => void
+    onUploadSuccess: (uploadedResume: Resume) => void
+    setError: (error: string | null) => void
 }
 
-const UploadResumes: React.FC<UploadResumesProps> = ({ open, onClose, onUploadSuccess, setError }) => {
-    const { token } = useAuth();
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [metadata, setMetadata] = useState('');
+const UploadResumes: React.FC<UploadResumesProps> = ({
+    open,
+    onClose,
+    onUploadSuccess,
+    setError,
+}) => {
+    const { token } = useAuth()
+    const [selectedFile, setSelectedFile] = useState<File | null>(null)
+    const [metadata, setMetadata] = useState('')
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedFile(event.target.files?.[0] || null);
-    };
+        setSelectedFile(event.target.files?.[0] || null)
+    }
 
-    const handleMetadataChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setMetadata(event.target.value);
-    };
+    const handleMetadataChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setMetadata(event.target.value)
+    }
 
     const handleUploadResume = async () => {
         if (selectedFile) {
             try {
-                const metadataObject = metadata ? JSON.parse(metadata) : {};
-                const response = await uploadResume(token!!, metadataObject, selectedFile);
+                const metadataObject = metadata ? JSON.parse(metadata) : {}
+                const response = await uploadResume(
+                    token!!,
+                    metadataObject,
+                    selectedFile
+                )
 
                 if (response.state === 'SUCCESS') {
-                    onUploadSuccess(response.data);
-                    setSelectedFile(null);
-                    setMetadata('');
-                    onClose();
+                    onUploadSuccess(response.data)
+                    setSelectedFile(null)
+                    setMetadata('')
+                    onClose()
                 } else {
-                    setError(`Error uploading resume: ${response.error}`);
+                    setError(`Error uploading resume: ${response.error}`)
                 }
             } catch (error) {
-                setError('Invalid metadata JSON format. Please correct and try again.');
+                setError(
+                    'Invalid metadata JSON format. Please correct and try again.'
+                )
             }
         } else {
-            setError('Please select a file to upload.');
+            setError('Please select a file to upload.')
         }
-    };
+    }
 
     return (
         <Dialog open={open} onClose={onClose}>
@@ -81,7 +101,7 @@ const UploadResumes: React.FC<UploadResumesProps> = ({ open, onClose, onUploadSu
                 </Button>
             </DialogActions>
         </Dialog>
-    );
-};
+    )
+}
 
-export default UploadResumes;
+export default UploadResumes
