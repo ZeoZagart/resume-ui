@@ -1,87 +1,114 @@
 import axios from 'axios'
+import {
+    ApiResponse,
+    User,
+    UserCredentials,
+    Resume,
+    GenerateCoverLetterRequest,
+    TokenResponse,
+    ListResumeResponse,
+} from './types'
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:8080/api',
 })
 
-export const signup = async (name: string, email: string, password: string) => {
-    const response = await apiClient.post('/signup', {
-        name,
-        email,
-        password,
-    })
-    return response.data
+const handleResponse = async <T>(
+    responsePromise: Promise<any>
+): Promise<ApiResponse<T>> => {
+    try {
+        const response = await responsePromise
+        return { state: 'SUCCESS', data: response.data }
+    } catch (error: any) {
+        if (error.response) {
+            return { state: 'FAILURE', error: error.response }
+        } else {
+            return { state: 'FAILURE', error: error }
+        }
+    }
 }
 
-export const login = async (email: string, password: string) => {
-    const response = await apiClient.post('/login', {
-        email,
-        password,
-    })
-    return response.data
+export const signup = (user: User): Promise<ApiResponse<TokenResponse>> => {
+    const responsePromise = apiClient.post('/signup', user)
+    return handleResponse<TokenResponse>(responsePromise)
 }
 
-export const logout = async (token: string) => {
-    await apiClient.post(
+export const login = (
+    credentials: UserCredentials
+): Promise<ApiResponse<TokenResponse>> => {
+    const responsePromise = apiClient.post('/login', credentials)
+    return handleResponse<TokenResponse>(responsePromise)
+}
+
+export const logout = async (token: string): Promise<ApiResponse<void>> => {
+    const responsePromise = apiClient.post(
         '/logout',
         {},
         { headers: { Authorization: `Bearer ${token}` } }
     )
+    return handleResponse<void>(responsePromise)
 }
 
 export const uploadResume = async (
     token: string,
-    metadata: object,
+    metadata: Record<string, string>,
     file: File
-) => {
+): Promise<ApiResponse<Resume>> => {
     const formData = new FormData()
     formData.append('metadata', JSON.stringify(metadata))
     formData.append('file', file)
 
-    const response = await apiClient.put('/upload-resume', formData, {
+    const responsePromise = apiClient.put('/upload-resume', formData, {
         headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
         },
     })
-    return response.data
+    return handleResponse<Resume>(responsePromise)
 }
 
-export const listResumes = async (token: string) => {
-    const response = await apiClient.get('/list-resumes', {
+export const listResumes = async (
+    token: string
+): Promise<ApiResponse<ListResumeResponse>> => {
+    const responsePromise = apiClient.get('/list-resumes', {
         headers: { Authorization: `Bearer ${token}` },
     })
-    return response.data
+    return handleResponse<ListResumeResponse>(responsePromise)
 }
 
-export const downloadResume = async (token: string, resumeId: string) => {
-    const response = await apiClient.get(`/download-resume/${resumeId}`, {
+export const downloadResume = async (
+    token: string,
+    resumeId: string
+): Promise<ApiResponse<Blob>> => {
+    const responsePromise = apiClient.get(`/download-resume/${resumeId}`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob',
     })
-    return response.data
+    return handleResponse<Blob>(responsePromise)
 }
 
-export const markResumePublic = async (token: string, resumeId: string) => {
-    const response = await apiClient.put(
+export const markResumePublic = async (
+    token: string,
+    resumeId: string
+): Promise<ApiResponse<void>> => {
+    const responsePromise = apiClient.put(
         `/mark-resume-public/${resumeId}`,
         null,
         {
             headers: { Authorization: `Bearer ${token}` },
         }
     )
-    return response.data
+    return handleResponse<void>(responsePromise)
 }
 
 export const generateCoverLetter = async (
     token: string,
-    resumeId: string,
-    jobDesc: string
-) => {
-    const response = await apiClient.post(
-        '/generate-cover-letter',
-        { resume_id: resumeId, job_desc: jobDesc },
-        { headers: { Authorization: `Bearer ${token}` } }
-    )
-    return response.data
+    request: GenerateCoverLetterRequest
+): Promise<ApiResponse<string>> => {
+    const responsePromise = apiClient.post('/generate-cover-letter', request, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    return handleResponse<string>(responsePromise)
 }

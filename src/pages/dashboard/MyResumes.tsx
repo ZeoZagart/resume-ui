@@ -8,16 +8,8 @@ import {
     TableRow,
 } from '@mui/material'
 import { downloadResume, listResumes } from '../../api/resume_service'
+import { Resume } from '../../api/types'
 import { useAuth } from '../../context/AuthContext'
-
-interface Resume {
-    id: string
-    user_id: string
-    file_name: string
-    upload_date: string
-    metadata: Record<string, string>
-    public: boolean
-}
 
 const MyResumes = () => {
     const { token } = useAuth()
@@ -25,14 +17,12 @@ const MyResumes = () => {
 
     useEffect(() => {
         const fetchResumes = async () => {
-            try {
-                const response = await listResumes(token!!)
-                console.log(`received resume: ${JSON.stringify(response)}`)
-                if (!!response) {
-                    setResumes(response.resumes)
-                }
-            } catch (error) {
-                console.error('Error fetching resumes:', error)
+            const response = await listResumes(token!!)
+            if (response.state === 'SUCCESS') {
+                const { resumes } = response.data
+                setResumes(resumes)
+            } else {
+                console.error('Error fetching resumes:', response.error)
             }
         }
 
@@ -40,8 +30,9 @@ const MyResumes = () => {
     }, [token])
 
     const handleDownload = async (resumeId: string) => {
-        try {
-            const response = await downloadResume(token!!, resumeId)
+        const response = await downloadResume(token!!, resumeId)
+
+        if (response.state === 'SUCCESS') {
             const url = window.URL.createObjectURL(new Blob([response.data]))
             const link = document.createElement('a')
             link.href = url
@@ -50,8 +41,8 @@ const MyResumes = () => {
             link.click()
             link.remove()
             window.URL.revokeObjectURL(url)
-        } catch (error) {
-            console.error('Error downloading the resume:', error)
+        } else {
+            console.error('Error downloading the resume:', response.error)
         }
     }
 

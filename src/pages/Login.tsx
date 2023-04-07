@@ -23,15 +23,15 @@ const Login: React.FC = () => {
         setLoading(true)
         setError('')
 
-        try {
-            const { token } = await login(email, password)
+        const response = await login({email, password})
+        if (response.state === 'SUCCESS') {
+            const { token } = response.data
             setToken(token)
             navigator('/dashboard')
-        } catch (error) {
-            setError('Invalid email or password.')
-        } finally {
-            setLoading(false)
+        } else {
+            setError(response.error)
         }
+        setLoading(false)
     }
 
     return (

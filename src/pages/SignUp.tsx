@@ -24,15 +24,15 @@ const SignUp: React.FC = () => {
         setLoading(true)
         setError('')
 
-        try {
-            const { token } = await signup(name, email, password)
+        const response = await signup({name, email, password})
+        if (response.state === 'SUCCESS') {
+            const { token } = response.data
             setToken(token)
             navigator('/dashboard')
-        } catch (error) {
-            setError('Error signing up. Please try again.')
-        } finally {
-            setLoading(false)
+        } else {
+            setError(response.error)
         }
+        setLoading(false)
     }
 
     return (
