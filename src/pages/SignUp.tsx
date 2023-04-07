@@ -24,7 +24,7 @@ const SignUp: React.FC = () => {
         setLoading(true)
         setError('')
 
-        const response = await signup({name, email, password})
+        const response = await signup({ name, email, password })
         if (response.state === 'SUCCESS') {
             const { token } = response.data
             setToken(token)

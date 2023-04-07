@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import {
     Button,
+    Snackbar,
     Table,
     TableBody,
     TableCell,
     TableHead,
     TableRow,
+    Alert,
 } from '@mui/material'
-import { downloadResume, listResumes } from '../../api/resume_service'
+import {
+    downloadResume,
+    listResumes,
+    deleteResume,
+} from '../../api/resume_service'
 import { Resume } from '../../api/types'
 import { useAuth } from '../../context/AuthContext'
 
 const MyResumes = () => {
     const { token } = useAuth()
     const [resumes, setResumes] = useState<Resume[]>([])
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchResumes = async () => {
@@ -23,6 +30,7 @@ const MyResumes = () => {
                 setResumes(resumes)
             } else {
                 console.error('Error fetching resumes:', response.error)
+                setError(`Error fetching resumes: ${response.error}`)
             }
         }
 
@@ -50,8 +58,19 @@ const MyResumes = () => {
         // Implement edit functionality
     }
 
-    const handleDelete = (id: string) => {
-        // Implement delete functionality
+    const handleDelete = async (id: string) => {
+        const response = await deleteResume(token!!, id)
+        if (response.state === 'SUCCESS') {
+            setResumes(resumes.filter((resume) => resume.id !== id))
+        } else {
+            setError(
+                'An error occurred while deleting the resume. Please try again later.'
+            )
+        }
+    }
+
+    const handleCloseSnackbar = () => {
+        setError(null)
     }
 
     return (
@@ -107,6 +126,20 @@ const MyResumes = () => {
             >
                 Upload New Resume
             </Button>
+            <Snackbar
+                open={error !== null}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            >
+                <Alert
+                    onClose={handleCloseSnackbar}
+                    severity="error"
+                    sx={{ width: '100%' }}
+                >
+                    {error}
+                </Alert>
+            </Snackbar>
         </>
     )
 }

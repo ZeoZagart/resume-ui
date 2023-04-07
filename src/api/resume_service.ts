@@ -87,6 +87,16 @@ export const downloadResume = async (
     return handleResponse<Blob>(responsePromise)
 }
 
+export const deleteResume = async (
+    token: string,
+    resumeId: string
+): Promise<ApiResponse<void>> => {
+    const responsePromise = apiClient.delete(`/delete-resume/${resumeId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+    })
+    return handleResponse<void>(responsePromise)
+}
+
 export const markResumePublic = async (
     token: string,
     resumeId: string

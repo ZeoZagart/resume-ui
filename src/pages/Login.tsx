@@ -23,7 +23,7 @@ const Login: React.FC = () => {
         setLoading(true)
         setError('')
 
-        const response = await login({email, password})
+        const response = await login({ email, password })
         if (response.state === 'SUCCESS') {
             const { token } = response.data
             setToken(token)
