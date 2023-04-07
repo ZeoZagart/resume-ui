@@ -46,7 +46,13 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
             setError('No file selected')
             return
         }
-        const metadataObject = metadata ? JSON.parse(metadata) : {}
+        let metadataObject = {}
+        try {
+            metadataObject = JSON.parse(metadata)
+        } catch (error) {
+            setError(`${error}`)
+            return
+        }
 
         setLoading(true)
         const response = await uploadResume(token!!, metadataObject, file)
