@@ -34,19 +34,25 @@ const NavBar: React.FC = () => {
                     aria-haspopup="true"
                     onClick={handleMenu}
                 >
-                    <Avatar>
-                        {"A"}
-                    </Avatar>
+                    <Avatar>{'A'}</Avatar>
                 </IconButton>
                 <Menu
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem onClick={handleClose} component={Link} to="/account-settings">
+                    <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/account-settings"
+                    >
                         Account Settings
                     </MenuItem>
-                    <MenuItem onClick={handleClose} component={Link} to="/subscription">
+                    <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/subscription"
+                    >
                         Subscription
                     </MenuItem>
                     <MenuItem onClick={() => setToken(null)}>Logout</MenuItem>
