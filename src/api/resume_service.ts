@@ -97,12 +97,13 @@ export const deleteResume = async (
     return handleResponse<void>(responsePromise)
 }
 
-export const markResumePublic = async (
+export const updateResumeVisibility = async (
     token: string,
-    resumeId: string
+    resumeId: string,
+    isPublic: boolean
 ): Promise<ApiResponse<void>> => {
-    const responsePromise = apiClient.put(
-        `/mark-resume-public/${resumeId}`,
+    const responsePromise = apiClient.post(
+        `/update-resume-visibility/${resumeId}?public=${isPublic}`,
         null,
         {
             headers: { Authorization: `Bearer ${token}` },

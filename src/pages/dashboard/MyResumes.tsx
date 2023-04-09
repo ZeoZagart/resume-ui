@@ -9,11 +9,13 @@ import {
     TableRow,
     Alert,
     Chip,
+    Switch,
 } from '@mui/material'
 import {
     downloadResume,
     listResumes,
     deleteResume,
+    updateResumeVisibility,
 } from '../../api/resume_service'
 import { Resume } from '../../api/types'
 import { useAuth } from '../../context/AuthContext'
@@ -72,6 +74,30 @@ const MyResumes = () => {
         }
     }
 
+    const handleVisibilityToggle = async (
+        resumeId: string,
+        isPublic: boolean
+    ) => {
+        const response = await updateResumeVisibility(
+            token!!,
+            resumeId,
+            isPublic
+        )
+        if (response.state === 'SUCCESS') {
+            setResumes(
+                resumes.map((resume) =>
+                    resume.id === resumeId
+                        ? { ...resume, public: isPublic }
+                        : resume
+                )
+            )
+        } else {
+            setError(
+                'An error occurred while updating the resume visibility. Please try again later.'
+            )
+        }
+    }
+
     const handleCloseSnackbar = () => {
         setError(null)
     }
@@ -96,7 +122,7 @@ const MyResumes = () => {
                         <TableCell>File name</TableCell>
                         <TableCell>Upload date</TableCell>
                         <TableCell>Metadata</TableCell>
-                        <TableCell>Visibility</TableCell>
+                        <TableCell>Public?</TableCell>
                         <TableCell>Actions</TableCell>
                     </TableRow>
                 </TableHead>
@@ -110,12 +136,30 @@ const MyResumes = () => {
                                 ).toLocaleDateString()}
                             </TableCell>
                             <TableCell>
-                            {resume.tags ? (JSON.parse(resume.tags as any) as string[]).map((tag, index) => (
-                                <Chip key={index} label={tag} style={{ marginRight: '4px' }} />
-                            )) : []}
+                                {resume.tags
+                                    ? (
+                                          JSON.parse(
+                                              resume.tags as any
+                                          ) as string[]
+                                      ).map((tag, index) => (
+                                          <Chip
+                                              key={index}
+                                              label={tag}
+                                              style={{ marginRight: '4px' }}
+                                          />
+                                      ))
+                                    : []}
                             </TableCell>
                             <TableCell>
-                                {resume.public ? 'Public' : 'Private'}
+                                <Switch
+                                    checked={resume.public}
+                                    onChange={(event) =>
+                                        handleVisibilityToggle(
+                                            resume.id,
+                                            event.target.checked
+                                        )
+                                    }
+                                />
                             </TableCell>
                             <TableCell>
                                 <Button

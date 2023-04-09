@@ -35,9 +35,7 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
         setFile(event.target.files?.[0] || null)
     }
 
-    const handleTagsChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTags(event.target.value)
     }
 
@@ -48,7 +46,7 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
         }
         let tagsList = []
         try {
-            tagsList = tags.split(",").map(tag => tag.trim())
+            tagsList = tags.split(',').map((tag) => tag.trim())
         } catch (error) {
             setError(`${error}`)
             return
