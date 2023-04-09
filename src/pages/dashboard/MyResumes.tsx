@@ -19,7 +19,7 @@ import {
     deleteResume,
     updateResumeVisibility,
 } from '../../api/resume_service'
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from '@mui/icons-material/Add'
 import { Resume } from '../../api/types'
 import { useAuth } from '../../context/AuthContext'
 import UploadResume from '../../components/UploadResume'
