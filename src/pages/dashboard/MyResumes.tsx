@@ -59,10 +59,6 @@ const MyResumes = () => {
         }
     }
 
-    const handleEdit = (resume: string) => {
-        // Implement edit functionality
-    }
-
     const handleDelete = async (id: string) => {
         const response = await deleteResume(token!!, id)
         if (response.state === 'SUCCESS') {
@@ -166,9 +162,6 @@ const MyResumes = () => {
                                     onClick={() => handleDownload(resume.id)}
                                 >
                                     Download
-                                </Button>
-                                <Button onClick={() => handleEdit(resume.id)}>
-                                    Edit
                                 </Button>
                                 <Button onClick={() => handleDelete(resume.id)}>
                                     Delete
