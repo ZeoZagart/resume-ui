@@ -10,6 +10,8 @@ import {
     Alert,
     Chip,
     Switch,
+    Box,
+    Fab,
 } from '@mui/material'
 import {
     downloadResume,
@@ -17,6 +19,7 @@ import {
     deleteResume,
     updateResumeVisibility,
 } from '../../api/resume_service'
+import AddIcon from '@mui/icons-material/Add';
 import { Resume } from '../../api/types'
 import { useAuth } from '../../context/AuthContext'
 import UploadResume from '../../components/UploadResume'
@@ -171,13 +174,15 @@ const MyResumes = () => {
                     ))}
                 </TableBody>
             </Table>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={handleOpenUploadDialog}
-            >
-                Upload New Resume
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                <Fab
+                    color="primary"
+                    aria-label="add"
+                    onClick={handleOpenUploadDialog}
+                >
+                    <AddIcon />
+                </Fab>
+            </Box>
             <UploadResume
                 open={uploadDialogOpen}
                 onClose={handleCloseUploadDialog}
