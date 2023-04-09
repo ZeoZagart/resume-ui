@@ -28,17 +28,17 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
 }: UploadResumesProps) => {
     const { token } = useAuth()
     const [file, setFile] = useState<File | null>(null)
-    const [metadata, setMetadata] = useState('')
+    const [tags, setTags] = useState('')
     const [loading, setLoading] = useState(false)
 
     const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFile(event.target.files?.[0] || null)
     }
 
-    const handleMetadataChange = (
+    const handleTagsChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        setMetadata(event.target.value)
+        setTags(event.target.value)
     }
 
     const handleUpload = async () => {
@@ -46,21 +46,21 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
             setError('No file selected')
             return
         }
-        let metadataObject = {}
+        let tagsList = []
         try {
-            metadataObject = JSON.parse(metadata)
+            tagsList = tags.split(",").map(tag => tag.trim())
         } catch (error) {
             setError(`${error}`)
             return
         }
 
         setLoading(true)
-        const response = await uploadResume(token!!, metadataObject, file)
+        const response = await uploadResume(token!!, tagsList, file)
         setLoading(false)
         if (response.state === 'SUCCESS') {
-            onUploadSuccess(response.data)
+            onUploadSuccess(response.data.resume)
             setFile(null)
-            setMetadata('')
+            setTags('')
             onClose()
         } else {
             setError(`Error uploading resume: ${response.error}`)
@@ -85,13 +85,13 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
                     </Button>
                 </label>
                 <TextField
-                    id="metadata"
-                    label="Metadata (Optional, JSON format)"
+                    id="tags"
+                    label="Tags (Optional, comma separated list of tags)"
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    value={metadata}
-                    onChange={handleMetadataChange}
+                    value={tags}
+                    onChange={handleTagsChange}
                 />
             </DialogContent>
             <DialogActions>

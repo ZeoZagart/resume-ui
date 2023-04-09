@@ -8,6 +8,7 @@ import {
     TableHead,
     TableRow,
     Alert,
+    Chip,
 } from '@mui/material'
 import {
     downloadResume,
@@ -109,7 +110,9 @@ const MyResumes = () => {
                                 ).toLocaleDateString()}
                             </TableCell>
                             <TableCell>
-                                {JSON.stringify(resume.metadata)}
+                            {resume.tags ? (JSON.parse(resume.tags as any) as string[]).map((tag, index) => (
+                                <Chip key={index} label={tag} style={{ marginRight: '4px' }} />
+                            )) : []}
                             </TableCell>
                             <TableCell>
                                 {resume.public ? 'Public' : 'Private'}

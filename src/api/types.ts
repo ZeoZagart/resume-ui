@@ -25,12 +25,16 @@ export interface TokenResponse {
     token: string
 }
 
+export interface UploadResumeResponse {
+    resume: Resume
+}
+
 export interface Resume {
     id: string
     user_id: string
     file_name: string
     upload_date: string
-    metadata: Record<string, string>
+    tags: string[]
     public: boolean
 }
 

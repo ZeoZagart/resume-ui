@@ -3,10 +3,10 @@ import {
     ApiResponse,
     User,
     UserCredentials,
-    Resume,
     GenerateCoverLetterRequest,
     TokenResponse,
     ListResumeResponse,
+    UploadResumeResponse,
 } from './types'
 
 const apiClient = axios.create({
@@ -51,11 +51,11 @@ export const logout = async (token: string): Promise<ApiResponse<void>> => {
 
 export const uploadResume = async (
     token: string,
-    metadata: Record<string, string>,
+    tags: string[],
     file: File
-): Promise<ApiResponse<Resume>> => {
+): Promise<ApiResponse<UploadResumeResponse>> => {
     const formData = new FormData()
-    formData.append('metadata', JSON.stringify(metadata))
+    formData.append('tags', JSON.stringify(tags))
     formData.append('file', file)
 
     const responsePromise = apiClient.put('/upload-resume', formData, {
@@ -64,7 +64,7 @@ export const uploadResume = async (
             'Content-Type': 'multipart/form-data',
         },
     })
-    return handleResponse<Resume>(responsePromise)
+    return handleResponse<UploadResumeResponse>(responsePromise)
 }
 
 export const listResumes = async (
