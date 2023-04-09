@@ -1,4 +1,3 @@
-// src/pages/dashboard/Dashboard.tsx
 import React, { useState } from 'react';
 import { Box, ListItemIcon, ListItemText, List, Divider, ListItemButton } from '@mui/material';
 import MyResumes from './MyResumes';
@@ -26,26 +25,26 @@ const Dashboard: React.FC = () => {
     <Box display="flex">
       <Box component="nav">
         <List>
-          <ListItemButton onClick={handleDrawerToggle}>
+          <ListItemButton onClick={handleDrawerToggle} sx={{ height: '48px' }}>
             <ListItemIcon>
               {drawerOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </ListItemIcon>
             {drawerOpen && <ListItemText primary="Hide" />}
           </ListItemButton>
           <Divider />
-          <ListItemButton onClick={() => handleChange(0)}>
+          <ListItemButton onClick={() => handleChange(0)} sx={{ height: '48px' }}>
             <ListItemIcon>
               <DescriptionIcon />
             </ListItemIcon>
             {drawerOpen && <ListItemText primary="My Resumes" />}
           </ListItemButton>
-          <ListItemButton  onClick={() => handleChange(1)}>
+          <ListItemButton onClick={() => handleChange(1)} sx={{ height: '48px' }}>
             <ListItemIcon>
               <PostAddIcon />
             </ListItemIcon>
             {drawerOpen && <ListItemText primary="Generate Cover Letter" />}
           </ListItemButton>
-          <ListItemButton  onClick={() => handleChange(2)}>
+          <ListItemButton onClick={() => handleChange(2)} sx={{ height: '48px' }}>
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
