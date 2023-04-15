@@ -8,6 +8,7 @@ import Dashboard from './pages/dashboard/Dashboard'
 import { CssBaseline } from '@mui/material'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import ThemeProvider from './theme'
+import Subscription from './pages/Subscription'
 
 const Home: React.FC = () => {
     const { isLoggedIn } = useAuth()
@@ -27,6 +28,7 @@ const App: React.FC = () => {
                             <Route path="/signup" element={<SignUp />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/subscription" element={<Subscription />} />
                         </Routes>
                     </Router>
                 </AuthProvider>
