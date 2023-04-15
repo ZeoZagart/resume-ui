@@ -29,7 +29,6 @@ const Dashboard: React.FC = () => {
     }
 
     const drawerItemStyles = (selected: boolean) => ({
-        backgroundColor: selected ? 'rgba(0, 0, 0, 0.08)' : 'transparent',
         borderRadius: '4px',
         margin: '4px',
     })

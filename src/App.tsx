@@ -5,9 +5,9 @@ import HeroSection from './components/HeroSection'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import Dashboard from './pages/dashboard/Dashboard'
-import { CssBaseline, ThemeProvider } from '@mui/material'
+import { CssBaseline } from '@mui/material'
 import { AuthProvider, useAuth } from './context/AuthContext'
-import theme from './theme'
+import ThemeProvider from "./theme";
 
 const Home: React.FC = () => {
     const { isLoggedIn } = useAuth()
@@ -17,7 +17,7 @@ const Home: React.FC = () => {
 const App: React.FC = () => {
     return (
         <>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider>
                 <CssBaseline />
                 <AuthProvider>
                     <Router>
