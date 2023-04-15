@@ -1,15 +1,12 @@
-export default function ListItemButton(theme) {
+export default function List(theme) {
     return {
-        MuiListItemButton: {
+        MuiList: {
             styleOverrides: {
                 root: {
-                    borderRadius: '10px',
+                    border: `2px solid ${theme.palette.primary.main}`,
                     margin: '2px',
-                    '&:hover': {
-                        backgroundColor: theme.palette.secondary.light,
-                        boxShadow: 'none',
-                    },
-
+                    borderRadius: '15px',
+                    padding: '20px',
                     sx: {
                         height: '48px',
                     },

@@ -1,4 +1,5 @@
 import Card from './Card'
+import List from './List'
 import Paper from './Paper'
 import Input from './Input'
 import Table from './Table'
@@ -13,6 +14,7 @@ import ListItemButton from './ListItemButton'
 export default function ComponentsOverrides(theme) {
     return Object.assign(
         Card(theme),
+        List(theme),
         Table(theme),
         Input(theme),
         Paper(theme),
