@@ -41,13 +41,13 @@ const NavBar: React.FC = () => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem
+                    {/*<MenuItem
                         onClick={handleClose}
                         component={Link}
                         to="/account-settings"
                     >
                         Account Settings
-                    </MenuItem>
+                    </MenuItem>*/}
                     <MenuItem
                         onClick={handleClose}
                         component={Link}

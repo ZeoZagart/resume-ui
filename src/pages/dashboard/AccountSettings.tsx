@@ -1,3 +1,5 @@
+// coming soon
+
 import React from 'react'
 
 const AccountSettings: React.FC = () => {
