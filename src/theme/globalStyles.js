@@ -16,10 +16,11 @@ export default function GlobalStyles() {
                     width: '100%',
                     height: '100%',
                     WebkitOverflowScrolling: 'touch',
+                    borderRadius: '100px',
                 },
                 body: {
-                    margin: 0,
-                    padding: 0,
+                    paddingInline: '1%',
+                    paddingTop: '10px',
                     width: '100%',
                     height: '100%',
                 },

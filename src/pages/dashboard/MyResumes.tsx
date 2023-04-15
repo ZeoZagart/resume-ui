@@ -162,11 +162,11 @@ const MyResumes = () => {
                             </TableCell>
                             <TableCell>
                                 <Button
-                                    onClick={() => handleDownload(resume.id)}
+                                    variant='contained' onClick={() => handleDownload(resume.id)}
                                 >
                                     Download
                                 </Button>
-                                <Button onClick={() => handleDelete(resume.id)}>
+                                <Button variant='contained' onClick={() => handleDelete(resume.id)}>
                                     Delete
                                 </Button>
                             </TableCell>
@@ -178,9 +178,12 @@ const MyResumes = () => {
                 <Fab
                     color="primary"
                     aria-label="add"
+                    variant='extended'
+                    size="medium"
                     onClick={handleOpenUploadDialog}
                 >
                     <AddIcon />
+                    Upload
                 </Fab>
             </Box>
             <UploadResume

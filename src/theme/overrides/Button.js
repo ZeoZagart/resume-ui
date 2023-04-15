@@ -7,9 +7,12 @@ export default function Button(theme) {
         MuiButton: {
             styleOverrides: {
                 root: {
+                    borderRadius: '100px',
                     '&:hover': {
                         boxShadow: 'none',
                     },
+                    marginLeft: '3px',
+                    marginRight: '3px',
                 },
                 sizeLarge: {
                     height: 48,
