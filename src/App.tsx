@@ -28,7 +28,10 @@ const App: React.FC = () => {
                             <Route path="/signup" element={<SignUp />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/subscription" element={<Subscription />} />
+                            <Route
+                                path="/subscription"
+                                element={<Subscription />}
+                            />
                         </Routes>
                     </Router>
                 </AuthProvider>

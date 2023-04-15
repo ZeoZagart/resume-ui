@@ -9,13 +9,12 @@ import {
     MenuItem,
 } from '@mui/material'
 import { useAuth } from '../context/AuthContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
 const NavBar: React.FC = () => {
     const { isLoggedIn, setToken } = useAuth()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-    const navigator = useNavigate()
 
     const handleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget)
@@ -26,8 +25,8 @@ const NavBar: React.FC = () => {
     }
 
     const handleLogout = () => {
+        setAnchorEl(null)
         setToken(null)
-        navigator('/')
     }
 
     const logOutButtons = () => {
@@ -47,13 +46,6 @@ const NavBar: React.FC = () => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    {/*<MenuItem
-                        onClick={handleClose}
-                        component={Link}
-                        to="/account-settings"
-                    >
-                        Account Settings
-                    </MenuItem>*/}
                     <MenuItem
                         onClick={handleClose}
                         component={Link}
@@ -61,7 +53,13 @@ const NavBar: React.FC = () => {
                     >
                         Subscription
                     </MenuItem>
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    <MenuItem
+                        onClick={handleLogout}
+                        component={Link}
+                        to="/"
+                    >
+                        Logout
+                    </MenuItem>
                 </Menu>
             </>
         )
