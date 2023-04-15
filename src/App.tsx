@@ -7,7 +7,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/dashboard/Dashboard'
 import { CssBaseline } from '@mui/material'
 import { AuthProvider, useAuth } from './context/AuthContext'
-import ThemeProvider from "./theme";
+import ThemeProvider from './theme'
 
 const Home: React.FC = () => {
     const { isLoggedIn } = useAuth()
