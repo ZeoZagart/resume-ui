@@ -19,13 +19,13 @@ apiClient.interceptors.response.use(
     },
     (error) => {
         console.log(`received error: ${error}`)
-        if (
-            error.response &&
-            error.response.status === 401 &&
-            error.response.data.error_code === 'email_not_verified'
-        ) {
-            console.log(`redirecting: ${error.response}`)
-            window.location.replace('/email-verification')
+        if (error.response && error.response.status === 401) {
+            if (error.response.data.error_code === 'email_not_verified') {
+                window.location.replace('/email-verification')
+            }
+            if (error.response.data.error_code === 'invalid_login') {
+                window.location.replace('/login')
+            }
         }
         return Promise.reject(error)
     }
@@ -38,10 +38,23 @@ const handleResponse = async <T>(
         const response = await responsePromise
         return { state: 'SUCCESS', data: response.data }
     } catch (error: any) {
+        console.log('in handleResponse')
+        console.log(error)
         if (error.response) {
-            return { state: 'FAILURE', error: error.response }
+            if (error.response.data) {
+                return {
+                    state: 'FAILURE',
+                    error: error.response.data.error,
+                    errorCode: error.response.data.error_code,
+                }
+            } else {
+                return {
+                    state: 'FAILURE',
+                    error: JSON.stringify(error.response),
+                }
+            }
         } else {
-            return { state: 'FAILURE', error: error }
+            return { state: 'FAILURE', error: JSON.stringify(error) }
         }
     }
 }

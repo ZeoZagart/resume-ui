@@ -10,6 +10,7 @@ export type SuccessResponse<T> = {
 export type ErrorResponse = {
     state: 'FAILURE'
     error: string
+    errorCode?: string
 }
 
 export interface UserCredentials {

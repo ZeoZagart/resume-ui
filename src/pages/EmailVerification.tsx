@@ -28,6 +28,8 @@ const EmailVerification: React.FC = () => {
         if (response.state === 'SUCCESS') {
             navigator('/dashboard')
         } else {
+            console.log(`received error on verifyEmail: `)
+            console.log(response.error)
             setError(response.error)
         }
         setLoading(false)
@@ -63,9 +65,12 @@ const EmailVerification: React.FC = () => {
                 margin="normal"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                error={Boolean(error)}
-                helperText={error}
             />
+            {error && (
+                <Typography variant="body2" color="error">
+                {error}
+                </Typography>
+            )}
             <Button
                 type="submit"
                 variant="contained"
