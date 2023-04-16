@@ -9,6 +9,7 @@ import { CssBaseline } from '@mui/material'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import ThemeProvider from './theme'
 import Subscription from './pages/Subscription'
+import EmailVerification from './pages/EmailVerification'
 
 const Home: React.FC = () => {
     const { isLoggedIn } = useAuth()
@@ -28,6 +29,7 @@ const App: React.FC = () => {
                             <Route path="/signup" element={<SignUp />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/email-verification" element={<EmailVerification />} />
                             <Route
                                 path="/subscription"
                                 element={<Subscription />}

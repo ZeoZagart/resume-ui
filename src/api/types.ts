@@ -21,8 +21,9 @@ export interface User extends UserCredentials {
     name: string
 }
 
-export interface TokenResponse {
+export interface LoginResponse {
     token: string
+    emailVerified: boolean
 }
 
 export interface UploadResumeResponse {

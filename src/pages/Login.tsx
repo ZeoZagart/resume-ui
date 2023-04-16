@@ -27,7 +27,11 @@ const Login: React.FC = () => {
         if (response.state === 'SUCCESS') {
             const { token } = response.data
             setToken(token)
-            navigator('/dashboard')
+            if (response.data.emailVerified === true) {
+                navigator('/dashboard')
+            } else {
+                navigator('/email-verification')
+            }
         } else {
             setError(response.error)
         }

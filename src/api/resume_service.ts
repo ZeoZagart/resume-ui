@@ -4,7 +4,7 @@ import {
     User,
     UserCredentials,
     GenerateCoverLetterRequest,
-    TokenResponse,
+    LoginResponse,
     ListResumeResponse,
     UploadResumeResponse,
 } from './types'
@@ -28,16 +28,16 @@ const handleResponse = async <T>(
     }
 }
 
-export const signup = (user: User): Promise<ApiResponse<TokenResponse>> => {
+export const signup = (user: User): Promise<ApiResponse<LoginResponse>> => {
     const responsePromise = apiClient.post('/signup', user)
-    return handleResponse<TokenResponse>(responsePromise)
+    return handleResponse<LoginResponse>(responsePromise)
 }
 
 export const login = (
     credentials: UserCredentials
-): Promise<ApiResponse<TokenResponse>> => {
+): Promise<ApiResponse<LoginResponse>> => {
     const responsePromise = apiClient.post('/login', credentials)
-    return handleResponse<TokenResponse>(responsePromise)
+    return handleResponse<LoginResponse>(responsePromise)
 }
 
 export const logout = async (token: string): Promise<ApiResponse<void>> => {
@@ -122,4 +122,31 @@ export const generateCoverLetter = async (
         },
     })
     return handleResponse<string>(responsePromise)
+}
+
+export const verifyEmail = (
+    token: string,
+    otp: string
+): Promise<ApiResponse<{ email_verified: boolean }>> => {
+    const responsePromise = apiClient.post(
+        '/verify-email',
+        { otp },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    )
+    return handleResponse<{ email_verified: boolean }>(responsePromise)
+}
+
+export const resendOTP = (
+    token: string
+): Promise<ApiResponse<{ otp_sent: boolean }>> => {
+    const responsePromise = apiClient.get('/resend-otp', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    return handleResponse<{ otp_sent: boolean }>(responsePromise)
 }
