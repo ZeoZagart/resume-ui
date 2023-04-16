@@ -13,6 +13,24 @@ const apiClient = axios.create({
     baseURL: 'http://localhost:8080/api',
 })
 
+apiClient.interceptors.response.use(
+    (response) => {
+        return response
+    },
+    (error) => {
+        console.log(`received error: ${error}`)
+        if (
+            error.response &&
+            error.response.status === 401 &&
+            error.response.data.error_code === 'email_not_verified'
+        ) {
+            console.log(`redirecting: ${error.response}`)
+            window.location.replace('/email-verification')
+        }
+        return Promise.reject(error)
+    }
+)
+
 const handleResponse = async <T>(
     responsePromise: Promise<any>
 ): Promise<ApiResponse<T>> => {
