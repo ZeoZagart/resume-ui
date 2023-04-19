@@ -10,7 +10,7 @@ import {
 } from './types'
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: `${process.env.RESUME_SERVICE_URL}/api`,
 })
 
 apiClient.interceptors.response.use(
