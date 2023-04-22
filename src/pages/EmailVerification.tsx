@@ -11,7 +11,6 @@ import { verifyEmail, resendOTP } from '../api/resume_service'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
-
 const EmailVerification: React.FC = () => {
     const { token } = useAuth()
     const [otp, setOtp] = useState('')
@@ -68,7 +67,7 @@ const EmailVerification: React.FC = () => {
             />
             {error && (
                 <Typography variant="body2" color="error">
-                {error}
+                    {error}
                 </Typography>
             )}
             <Button

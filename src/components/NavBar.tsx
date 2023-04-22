@@ -53,11 +53,7 @@ const NavBar: React.FC = () => {
                     >
                         Subscription
                     </MenuItem>
-                    <MenuItem
-                        onClick={handleLogout}
-                        component={Link}
-                        to="/"
-                    >
+                    <MenuItem onClick={handleLogout} component={Link} to="/">
                         Logout
                     </MenuItem>
                 </Menu>

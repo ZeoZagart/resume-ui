@@ -13,7 +13,7 @@ import { useTheme } from '@mui/material'
 
 const Dashboard: React.FC = () => {
     const [tabValue, setTabValue] = useState(0)
-    const {palette} = useTheme()
+    const { palette } = useTheme()
 
     const handleChange = (newValue: number) => {
         setTabValue(newValue)
@@ -22,7 +22,8 @@ const Dashboard: React.FC = () => {
     return (
         <Box display="flex">
             <Box component="nav">
-                <List sx= {{
+                <List
+                    sx={{
                         border: `2px solid ${palette.primary.main}`,
                         margin: '2px',
                         borderRadius: '15px',
@@ -30,7 +31,8 @@ const Dashboard: React.FC = () => {
                         sx: {
                             height: '48px',
                         },
-                }}>
+                    }}
+                >
                     <ListItemButton
                         selected={tabValue === 0}
                         onClick={() => handleChange(0)}

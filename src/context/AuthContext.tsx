@@ -12,7 +12,7 @@ const AuthContext = createContext<AuthContextData>({
     isLoggedIn: () => false,
     token: null,
     setToken: (value: string | null) => {},
-    emailVerified: () => false
+    emailVerified: () => false,
 })
 
 export const useAuth = () => useContext(AuthContext)
@@ -44,7 +44,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, token, setToken, emailVerified}}>
+        <AuthContext.Provider
+            value={{ isLoggedIn, token, setToken, emailVerified }}
+        >
             {children}
         </AuthContext.Provider>
     )

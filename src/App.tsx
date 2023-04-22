@@ -29,7 +29,10 @@ const App: React.FC = () => {
                             <Route path="/signup" element={<SignUp />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/email-verification" element={<EmailVerification />} />
+                            <Route
+                                path="/email-verification"
+                                element={<EmailVerification />}
+                            />
                             <Route
                                 path="/subscription"
                                 element={<Subscription />}
