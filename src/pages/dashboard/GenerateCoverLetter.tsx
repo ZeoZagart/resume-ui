@@ -7,6 +7,8 @@ import {
     InputLabel,
     Select,
     MenuItem,
+    CardContent,
+    Card,
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { generateCoverLetter, listResumes } from '../../api/resume_service'
@@ -101,24 +103,31 @@ const GenerateCoverLetter = () => {
                     Generate
                 </LoadingButton>
             </Box>
+            {loading && (
+                <Typography>Hang on for 1 minute!!, Your cover-letter is being generated.</Typography>
+            )}
             {generatedCoverLetter && (
                 <Box sx={{ mt: 4 }}>
-                    <Typography variant="h6">
-                        Generated Cover Letter:
-                    </Typography>
-                    <Box
-                        component="pre"
-                        sx={{
-                            background: (theme) =>
-                                theme.palette.background.default,
-                            borderRadius: 1,
-                            p: 2,
-                            mt: 2,
-                            whiteSpace: 'pre-wrap',
-                        }}
-                    >
-                        {generatedCoverLetter}
-                    </Box>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6">
+                                Generated Cover Letter:
+                            </Typography>
+                            <Box
+                                component="pre"
+                                sx={{
+                                    background: (theme) =>
+                                        theme.palette.background.default,
+                                    borderRadius: 1,
+                                    p: 2,
+                                    mt: 2,
+                                    whiteSpace: 'pre-wrap',
+                                }}
+                            >
+                                {generatedCoverLetter}
+                            </Box>
+                        </CardContent>
+                    </Card>
                 </Box>
             )}
         </Box>
