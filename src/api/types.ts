@@ -31,6 +31,10 @@ export interface UploadResumeResponse {
     resume: Resume
 }
 
+export interface GenerateCoverLetterResponse {
+    cover_letter: string
+}
+
 export interface Resume {
     id: string
     user_id: string

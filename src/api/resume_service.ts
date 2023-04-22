@@ -7,10 +7,11 @@ import {
     LoginResponse,
     ListResumeResponse,
     UploadResumeResponse,
+    GenerateCoverLetterResponse,
 } from './types'
 
 const apiClient = axios.create({
-    baseURL: `${process.env.RESUME_SERVICE_URL}/api`,
+    baseURL: `${process.env.REACT_APP_RESUME_SERVICE_URL}/api`,
 })
 
 apiClient.interceptors.response.use(
@@ -146,13 +147,13 @@ export const updateResumeVisibility = async (
 export const generateCoverLetter = async (
     token: string,
     request: GenerateCoverLetterRequest
-): Promise<ApiResponse<string>> => {
+): Promise<ApiResponse<GenerateCoverLetterResponse>> => {
     const responsePromise = apiClient.post('/generate-cover-letter', request, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     })
-    return handleResponse<string>(responsePromise)
+    return handleResponse<GenerateCoverLetterResponse>(responsePromise)
 }
 
 export const verifyEmail = (

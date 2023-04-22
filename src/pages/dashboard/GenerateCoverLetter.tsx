@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
-    Button,
     TextField,
     Box,
     Typography,
@@ -9,6 +8,7 @@ import {
     Select,
     MenuItem,
 } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
 import { generateCoverLetter, listResumes } from '../../api/resume_service'
 import { useAuth } from '../../context/AuthContext'
 import { Resume } from '../../api/types'
@@ -16,6 +16,7 @@ import { Resume } from '../../api/types'
 const GenerateCoverLetter = () => {
     const { token } = useAuth()
     const [jobDescription, setJobDescription] = useState('')
+    const [loading, setLoading] = useState(false)
     const [generatedCoverLetter, setGeneratedCoverLetter] = useState('')
     const [selectedResumeId, setSelectedResumeId] = useState('')
     const [resumes, setResumes] = useState<Resume[]>([])
@@ -34,16 +35,18 @@ const GenerateCoverLetter = () => {
     }, [token])
 
     const handleSubmit = async () => {
+        setLoading(true)
         const response = await generateCoverLetter(token!!, {
             resume_id: selectedResumeId,
             job_desc: jobDescription,
         })
-
+        
         if (response.state === 'SUCCESS') {
-            setGeneratedCoverLetter(response.data)
+            setGeneratedCoverLetter(response.data.cover_letter)
         } else {
             console.error('Error generating cover letter:', response.error)
         }
+        setLoading(false)
     }
 
     return (
@@ -87,15 +90,16 @@ const GenerateCoverLetter = () => {
                     onChange={(e) => setJobDescription(e.target.value)}
                     sx={{ minWidth: 400, mt: 2 }}
                 />
-                <Button
+                <LoadingButton
                     variant="contained"
                     color="primary"
                     onClick={handleSubmit}
                     sx={{ mt: 2 }}
                     disabled={!selectedResumeId}
+                    loading={loading}
                 >
                     Generate
-                </Button>
+                </LoadingButton>
             </Box>
             {generatedCoverLetter && (
                 <Box sx={{ mt: 4 }}>
