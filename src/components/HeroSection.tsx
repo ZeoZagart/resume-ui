@@ -13,12 +13,12 @@ const HeroSection: React.FC = () => {
             padding={4}
         >
             <Typography variant="h2" gutterBottom>
-                Welcome to Resume Service
+                InterviewGrab. Increases your chances to land an interview.
             </Typography>
             <Typography variant="h5" gutterBottom>
-                Upload, manage, and generate cover letters for your resumes
+                Effortlessly create and manage resumes, generate tailored cover letters, and find your dream job with our AI-powered platform.
             </Typography>
-            <Button color="inherit" component={Link} to="/signup">
+            <Button component={Link} to="/signup">
                 Get Started
             </Button>
         </Box>
