@@ -8,6 +8,7 @@ import {
     ListResumeResponse,
     UploadResumeResponse,
     GenerateCoverLetterResponse,
+    UploadResumePublicResponse,
 } from './types'
 
 const apiClient = axios.create({
@@ -99,6 +100,18 @@ export const uploadResume = async (
     return handleResponse<UploadResumeResponse>(responsePromise)
 }
 
+export const uploadResumePublic = async (
+    file: File
+): Promise<ApiResponse<UploadResumePublicResponse>> => {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const responsePromise = apiClient.put('/upload-resume-public', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    return handleResponse<UploadResumePublicResponse>(responsePromise)
+}
+
 export const listResumes = async (
     token: string
 ): Promise<ApiResponse<ListResumeResponse>> => {
@@ -153,6 +166,16 @@ export const generateCoverLetter = async (
             Authorization: `Bearer ${token}`,
         },
     })
+    return handleResponse<GenerateCoverLetterResponse>(responsePromise)
+}
+
+export const generateCoverLetterPublic = async (
+    request: GenerateCoverLetterRequest
+): Promise<ApiResponse<GenerateCoverLetterResponse>> => {
+    const responsePromise = apiClient.post(
+        '/generate-cover-letter-public',
+        request
+    )
     return handleResponse<GenerateCoverLetterResponse>(responsePromise)
 }
 

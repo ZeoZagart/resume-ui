@@ -4,29 +4,27 @@ import {
     Button,
     Snackbar,
     Alert,
-    Fab,
     TextField,
     Card,
     CardContent,
 } from '@mui/material'
-import { Link } from 'react-router-dom'
 import UploadResume from './UploadResume'
 import { useState } from 'react'
-import { Resume } from '../api/types'
+import { TemporaryResume } from '../api/types'
 import { LoadingButton } from '@mui/lab'
-import { generateCoverLetter } from '../api/resume_service'
+import { generateCoverLetterPublic } from '../api/resume_service'
 
 const HeroSection: React.FC = () => {
     const [error, setError] = useState<string | null>(null)
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [resume, setResume] = useState<Resume | null>(null)
+    const [resume, setResume] = useState<TemporaryResume | null>(null)
     const [jobDescription, setJobDescription] = useState('')
     const [generatedCoverLetter, setGeneratedCoverLetter] = useState('')
 
     const handleSubmit = async () => {
         setLoading(true)
-        const response = await generateCoverLetter('', {
+        const response = await generateCoverLetterPublic({
             resume_id: resume!!.id,
             job_desc: jobDescription,
         })
@@ -43,7 +41,7 @@ const HeroSection: React.FC = () => {
         setError(null)
     }
 
-    const handleUploadSuccess = (uploadedResume: any) => {
+    const handleUploadSuccess = (uploadedResume: TemporaryResume) => {
         setResume(uploadedResume)
     }
 
@@ -80,7 +78,8 @@ const HeroSection: React.FC = () => {
                 open={uploadDialogOpen}
                 onClose={handleCloseUploadDialog}
                 onUploadSuccess={handleUploadSuccess}
-                setError={setError}
+                setError={setError} 
+                isPublic={true}    
             />
             <TextField
                 label="Job Description"
