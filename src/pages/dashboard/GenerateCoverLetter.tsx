@@ -42,7 +42,7 @@ const GenerateCoverLetter = () => {
             resume_id: selectedResumeId,
             job_desc: jobDescription,
         })
-        
+
         if (response.state === 'SUCCESS') {
             setGeneratedCoverLetter(response.data.cover_letter)
         } else {
@@ -104,7 +104,10 @@ const GenerateCoverLetter = () => {
                 </LoadingButton>
             </Box>
             {loading && (
-                <Typography>Hang on for 1 minute!!, Your cover-letter is being generated.</Typography>
+                <Typography>
+                    Hang on for 1 minute!!, Your cover-letter is being
+                    generated.
+                </Typography>
             )}
             {generatedCoverLetter && (
                 <Box sx={{ mt: 4 }}>
