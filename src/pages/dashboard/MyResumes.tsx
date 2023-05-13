@@ -20,7 +20,7 @@ import {
     updateResumeVisibility,
 } from '../../api/resume_service'
 import AddIcon from '@mui/icons-material/Add'
-import { Resume } from '../../api/types'
+import { Resume, TemporaryResume } from '../../api/types'
 import { useAuth } from '../../context/AuthContext'
 import UploadResume from '../../components/UploadResume'
 
@@ -101,8 +101,8 @@ const MyResumes = () => {
         setError(null)
     }
 
-    const handleUploadSuccess = (uploadedResume: any) => {
-        setResumes((prevState) => [uploadedResume, ...prevState])
+    const handleUploadSuccess = (uploadedResume: Resume | TemporaryResume) => {
+        setResumes((prevState) => [uploadedResume as Resume, ...prevState])
     }
 
     const handleOpenUploadDialog = () => {
@@ -195,6 +195,7 @@ const MyResumes = () => {
                 onClose={handleCloseUploadDialog}
                 onUploadSuccess={handleUploadSuccess}
                 setError={setError}
+                isPublic={false}
             />
             <Snackbar
                 open={error !== null}

@@ -9,23 +9,25 @@ import {
     TextField,
     CircularProgress,
 } from '@mui/material'
-import { uploadResume } from '../api/resume_service'
+import { uploadResume, uploadResumePublic } from '../api/resume_service'
 import { useAuth } from '../context/AuthContext'
-import { Resume } from '../api/types'
+import { Resume, TemporaryResume } from '../api/types'
 
-interface UploadResumesProps {
+interface UploadResumeProps {
     open: boolean
     onClose: () => void
-    onUploadSuccess: (uploadedResume: Resume) => void
+    onUploadSuccess: (uploadedResume: Resume | TemporaryResume) => void
     setError: (error: string | null) => void
+    isPublic: boolean
 }
 
-const UploadResumes: React.FC<UploadResumesProps> = ({
+const UploadResume: React.FC<UploadResumeProps> = ({
     open,
     onClose,
     onUploadSuccess,
     setError,
-}: UploadResumesProps) => {
+    isPublic,
+}: UploadResumeProps) => {
     const { token } = useAuth()
     const [file, setFile] = useState<File | null>(null)
     const [tags, setTags] = useState('')
@@ -53,8 +55,12 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
         }
 
         setLoading(true)
-        const response = await uploadResume(token!!, tagsList, file)
-        setLoading(false)
+        let response;
+        if (isPublic) {
+            response = await uploadResumePublic(file)
+        } else {
+            response = await uploadResume(token!!, tagsList, file)
+        }
         if (response.state === 'SUCCESS') {
             onUploadSuccess(response.data.resume)
             setFile(null)
@@ -63,6 +69,7 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
         } else {
             setError(`Error uploading resume: ${response.error}`)
         }
+        setLoading(false)
     }
 
     return (
@@ -112,4 +119,4 @@ const UploadResumes: React.FC<UploadResumesProps> = ({
     )
 }
 
-export default UploadResumes
+export default UploadResume

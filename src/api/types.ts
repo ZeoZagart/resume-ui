@@ -31,6 +31,10 @@ export interface UploadResumeResponse {
     resume: Resume
 }
 
+export interface UploadResumePublicResponse {
+    resume: TemporaryResume
+}
+
 export interface GenerateCoverLetterResponse {
     cover_letter: string
 }
@@ -41,6 +45,13 @@ export interface Resume {
     file_name: string
     upload_date: string
     tags: string[]
+    public: boolean
+}
+
+export interface TemporaryResume {
+    id: string
+    file_name: string
+    upload_date: string
     public: boolean
 }
 

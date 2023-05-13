@@ -78,7 +78,7 @@ const NavBar: React.FC = () => {
         <AppBar position="static">
             <Toolbar>
                 <Typography variant="h6" style={{ flexGrow: 1 }}>
-                    Resume Service
+                    InterviewGrab
                 </Typography>
                 {isLoggedIn() ? logOutButtons() : logInButtons()}
             </Toolbar>
