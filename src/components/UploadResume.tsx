@@ -89,7 +89,7 @@ const UploadResume: React.FC<UploadResumeProps> = ({
                         {file ? file.name : 'Choose File'}
                     </Button>
                 </label>
-                <TextField
+                {!isPublic && <TextField
                     id="tags"
                     label="Tags (Optional, comma separated list of tags)"
                     variant="outlined"
@@ -97,7 +97,7 @@ const UploadResume: React.FC<UploadResumeProps> = ({
                     margin="normal"
                     value={tags}
                     onChange={handleTagsChange}
-                />
+                />}
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
