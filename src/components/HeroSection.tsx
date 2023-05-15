@@ -9,10 +9,11 @@ import {
     CardContent,
 } from '@mui/material'
 import UploadResume from './UploadResume'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { TemporaryResume } from '../api/types'
 import { LoadingButton } from '@mui/lab'
 import { generateCoverLetterPublic } from '../api/resume_service'
+import GenerateCoverLetter from "../pages/dashboard/GenerateCoverLetter";
 
 const HeroSection: React.FC = () => {
     const [error, setError] = useState<string | null>(null)
@@ -33,6 +34,7 @@ const HeroSection: React.FC = () => {
             setGeneratedCoverLetter(response.data.cover_letter)
         } else {
             console.error('Error generating cover letter:', response.error)
+            setError(error)
         }
         setLoading(false)
     }
@@ -73,7 +75,11 @@ const HeroSection: React.FC = () => {
                 autofills your information on career pages. Create personalized
                 cover letters and manage your resumes effortlessly.
             </Typography>
-            <Button onClick={handleOpenUploadDialog}>Upload Resume</Button>
+            <label htmlFor="upload-file">
+                <Button variant="outlined" color="primary" component="span" onClick={handleOpenUploadDialog}>
+                    {resume ? resume.file_name : 'Upload Resume'}
+                </Button>
+            </label>
             <UploadResume
                 open={uploadDialogOpen}
                 onClose={handleCloseUploadDialog}
